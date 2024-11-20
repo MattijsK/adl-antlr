@@ -7,7 +7,7 @@
 //  license:     Apache 2.0 License <http://www.apache.org/licenses/LICENSE-2.0.html>
 //
 
-grammar Adl2;
+grammar adl2;
 import cadl2;
 
 //

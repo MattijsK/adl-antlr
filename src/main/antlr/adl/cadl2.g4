@@ -14,13 +14,13 @@ import cadl2_primitives, odin, base_expressions;
 //  ======================= Top-level Objects ========================
 //
 
-c_complex_object: rm_type_id '[' ( ROOT_ID_CODE | ID_CODE ) ']' c_occurrences? ( SYM_MATCHES '{' c_attribute_def+ default_value? '}' )? ;
+c_complex_object: rm_type_id '[' ( ROOT_ID_CODE | node_identifier ) ']' c_occurrences? ( SYM_MATCHES '{' c_attribute_def+ default_value? '}' )? ;
 
 // ======================== Components =======================
 
 c_objects: c_regular_object_ordered+ | c_inline_primitive_object ;
 
-sibling_order: ( SYM_AFTER | SYM_BEFORE ) '[' ID_CODE ']' ;
+sibling_order: ( SYM_AFTER | SYM_BEFORE ) '[' node_identifier ']' ;
 
 c_regular_object_ordered: sibling_order? c_regular_object ;
 
@@ -32,13 +32,13 @@ c_regular_object:
     | c_regular_primitive_object
     ;
 
-c_archetype_root: SYM_USE_ARCHETYPE rm_type_id '[' ID_CODE ',' archetype_ref ']' c_occurrences? ;
+c_archetype_root: SYM_USE_ARCHETYPE rm_type_id '[' node_identifier ',' archetype_ref ']' c_occurrences? ;
 
 archetype_ref : ARCHETYPE_HRID | ARCHETYPE_REF ;
 
-c_complex_object_proxy: SYM_USE_NODE rm_type_id '[' ID_CODE ']' c_occurrences? ADL_PATH ;
+c_complex_object_proxy: SYM_USE_NODE rm_type_id '[' node_identifier ']' c_occurrences? ADL_PATH ;
 
-archetype_slot: SYM_ALLOW_ARCHETYPE rm_type_id '[' ID_CODE ']' (( c_occurrences? ( SYM_MATCHES '{' c_includes? c_excludes? '}' )? ) | SYM_CLOSED ) ;
+archetype_slot: SYM_ALLOW_ARCHETYPE rm_type_id '[' node_identifier ']' (( c_occurrences? ( SYM_MATCHES '{' c_includes? c_excludes? '}' )? ) | SYM_CLOSED ) ;
 
 c_attribute_def:
       c_attribute
@@ -47,7 +47,7 @@ c_attribute_def:
 
 default_value: SYM_DEFAULT SYM_EQ '<' odin_text '>';
 
-c_regular_primitive_object: rm_type_id '[' ID_CODE ']' c_occurrences? ( SYM_MATCHES '{' c_inline_primitive_object '}' )? ;
+c_regular_primitive_object: rm_type_id '[' node_identifier ']' c_occurrences? ( SYM_MATCHES '{' c_inline_primitive_object '}' )? ;
 
 // We match regexes here, even though technically they are C_STRING instances. This is because the only
 // workable solution to match a regex unambiguously appears to be to match with enclosing {}, which means
@@ -74,6 +74,8 @@ multiplicity_mod : ordering_mod | unique_mod ;
 
 c_occurrences : SYM_OCCURRENCES SYM_MATCHES '{' multiplicity '}' ;
 multiplicity  : INTEGER | '*' | INTEGER '..' ( INTEGER | '*' ) ;
+
+node_identifier : ID_CODE | AT_CODE ;
 
 //
 // ---------- Lexer patterns -----------------
