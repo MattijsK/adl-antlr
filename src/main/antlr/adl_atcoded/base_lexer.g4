@@ -64,8 +64,10 @@ fragment CARET_REGEXP_CHAR: ~[^\n\r] | ESCAPE_SEQ | '\\^';
 // ---------- various ADL2 codes -------
 
 ROOT_AT_CODE : 'at0000' '.1'* ;
-AT_CODE      : 'at' ('0' | [0-9][0-9][0-9][0-9]) ( '.' ('0' | [1-9][0-9]* ))* ;
-AC_CODE      : 'ac' ('0' | [1-9][0-9]*) ( '.' ('0' | [1-9][0-9]* ))* ;
+AT_CODE      : 'at' CODE_STR ;
+AC_CODE      : 'ac' CODE_STR ;
+fragment CODE_STR : ('0' | [0-9][0-9][0-9][0-9]) ( '.' ('0' | [1-9][0-9]* ))* ;
+
 // ---------- ISO8601 Date/Time values ----------
 
 ISO8601_DATE      : YEAR '-' MONTH ( '-' DAY )? | YEAR '-' MONTH '-' UNKNOWN_DT | YEAR '-' UNKNOWN_DT '-' UNKNOWN_DT ;
